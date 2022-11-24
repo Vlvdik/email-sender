@@ -1,0 +1,18 @@
+[
+  {
+    "email": ["..."],
+    "personalInfo":{
+      "Name":"...",
+      "lastName":"...",
+      "birthday":"..."
+    }
+  },
+  {
+  "email": ["..."],
+    "personalInfo":{
+      "Name":"...",
+      "lastName":"...",
+      "birthday":"..."
+    }
+  }
+]
