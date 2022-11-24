@@ -1,0 +1,4 @@
+sender_email = "some email"
+password = "some pass"
+host = "some host"
+port = "some port"
