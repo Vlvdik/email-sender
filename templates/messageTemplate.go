@@ -8,8 +8,9 @@
     <title>Document</title>
 </head>
 <body style="background: #280441; text-align: center;">
-    <h1 style="color:#ad8f8f;"> Hello, {{.Name}} {{.LastName}}!</h1>
-    <h3>I know that your birthday date is {{.Birthday}} </h3>
-    <p>Im waiting this celly also like you!</p>
+    <h1 style="color:#d7d7d7;"> Привет, {{.PersonalInfo.Name}} {{.PersonalInfo.LastName}}!</h1>
+    <h3 style="color: aliceblue">Я знаю, что твоя родился {{.PersonalInfo.Birthday}} </h3>
+    <p>В честь этого мы подготовили тебе подарок. Кликай <strong><a href="Адрес сервера/linkTracker?email={{.Email}}">СЮДА</a></strong> чтобы получить приз!</p>
+    <img src="Адрес сервера/pixelTracker?email={{.Email}}"  alt="Bird" width="1px" height="1px">
 </body>
 </html>
