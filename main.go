@@ -1,21 +1,51 @@
 package main
 
 import (
-	"mail-Sender/config"
+	"context"
+	"fmt"
+	"io"
+	"log"
+	"mail-Sender/app"
+	"time"
 )
 
 func main() {
-	var s config.Sender
-	s.NewSender()
+	sd, es := app.Init()
+	ctx := context.Background()
+	go func() {
+		err := es.Start()
+		if err != nil {
+			log.Fatal(err)
+		}
+	}()
+	defer app.Close(&es, ctx)
 
-	var r config.Receivers
-	r.NewReceivers()
+	fmt.Println("Привет! Чтобы отослать рассылку напиши 1, чтобы отослать рассылку через промежуток времени - 2, чтобы выйти - 0")
+	for {
+		var input string
+		fmt.Println("Выберите команду: ")
+		_, err := fmt.Scan(&input)
+		if err != nil && err != io.EOF {
+			log.Fatal(err)
+		}
 
-	var d config.Data
-	d.NewData()
+		if input == "1" {
+			app.SendMails(sd)
 
-	var sd config.SendData
-	sd.NewSendData(s, r, d)
+		} else if input == "2" {
+			var duration time.Duration
+			fmt.Println("Укажите задержку в секундах: ")
+			_, err = fmt.Scan(&duration)
+			if err != nil && err != io.EOF {
+				log.Fatal(err)
+			}
 
-	config.SendMails(sd)
+			go app.SendMailsWithDuration(sd, duration)
+			fmt.Printf("Задача будет выполнена через %v секунд\n", duration)
+		} else if input == "0" {
+			break
+		} else {
+			fmt.Println("Неизвестная команда")
+		}
+	}
 }
