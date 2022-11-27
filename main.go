@@ -5,12 +5,13 @@ import (
 	"fmt"
 	"io"
 	"log"
-	"mail-Sender/app"
+	"mail-Sender/pkg/app"
 	"time"
 )
 
 func main() {
 	sd, es := app.Init()
+	app.FinishJobs(sd)
 	ctx := context.Background()
 	go func() {
 		err := es.Start()
@@ -40,7 +41,7 @@ func main() {
 				log.Fatal(err)
 			}
 
-			go app.SendMailsWithDuration(sd, duration)
+			go app.SendMailsWithDuration(sd, duration*time.Second)
 			fmt.Printf("Задача будет выполнена через %v секунд\n", duration)
 		} else if input == "0" {
 			break
