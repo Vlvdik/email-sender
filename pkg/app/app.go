@@ -101,13 +101,36 @@ func FinishJobs(sd config.SendData) {
 				deleteJob(value)
 			} else {
 				currentDuration := value.Date.Add(value.Duration).Sub(stamp)
+				fmt.Printf("Execute in %v seconds", currentDuration)
+				time.Sleep(currentDuration)
 
-				SendMailsWithDuration(sd, currentDuration)
 				deleteJob(value)
-
-				fmt.Printf("Выполню чуть позже, через %v секунд", currentDuration)
+				SendMails(sd)
 			}
 		}
+	}
+}
+
+func GetJobs() {
+	dataIn, err := ioutil.ReadFile("pkg/app/config/jobs.json")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var jobs Jobs
+	err = json.Unmarshal(dataIn, &jobs)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if len(jobs) > 0 {
+		for _, value := range jobs {
+			fmt.Printf("\nDate of creation: %v\nDelay before sending: %v",
+				value.Date.Format("02-Jan-2006 15:04:05"),
+				value.Duration)
+		}
+	} else {
+		fmt.Print("\nNo postponed mailings!")
 	}
 }
 
@@ -144,7 +167,7 @@ func SendMails(sd config.SendData) {
 		}
 	}
 
-	log.Println("Рассылка успешно выполнена!")
+	log.Println("\nLetter successfully sent!")
 }
 
 func SendMailsWithDuration(sd config.SendData, duration time.Duration) {
@@ -166,11 +189,11 @@ func SendMailsWithDuration(sd config.SendData, duration time.Duration) {
 		}
 	}
 	deleteJob(job)
-	log.Printf("Отложенная рассылка успешно выполнена!\n Дата и время задачи: %v\n", stamp.Format("02-Jan-2006 15:04:05"))
+	log.Printf("\nDeffered mailing successfully completed!\n Date and time of task: %v\n", stamp.Format("02-Jan-2006 15:04:05"))
 }
 
 func Close(es *server.EmailServer, ctx context.Context) {
-	log.Println("Приложение закрывается")
+	log.Println("\nThe app is closing")
 
 	err := es.Server.Shutdown(ctx)
 	if err != nil {
