@@ -18,7 +18,7 @@ func pixelTracker(w http.ResponseWriter, r *http.Request) {
 
 func linkTracker(w http.ResponseWriter, r *http.Request) {
 	log.Print("\n\nUser get to the link in letter\n\nUser Email:", r.URL.Query().Get("email"))
-	http.Redirect(w, r, `Сайт с "призом" для редиректа`, http.StatusFound)
+	http.Redirect(w, r, `Site with a "prize" for redirect`, http.StatusFound)
 }
 
 func (es *EmailServer) SetEmailServerData(sd config.SendData) {
@@ -27,8 +27,7 @@ func (es *EmailServer) SetEmailServerData(sd config.SendData) {
 
 func (es *EmailServer) Start() error {
 	es.Server = &http.Server{
-		Addr:        ":8082",
-		ReadTimeout: es.Info.Data.Timeout,
+		Addr: ":8082",
 	}
 
 	http.HandleFunc("/linkTracker", linkTracker)
