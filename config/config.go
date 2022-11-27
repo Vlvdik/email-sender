@@ -8,7 +8,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/smtp"
-	"time"
 )
 
 const mime = "MIME-version: 1.0;\nContent-type: text/html; charset=\"UTF-8\";\n\n"
@@ -35,7 +34,8 @@ func (r *Receivers) NewReceivers() {
 		log.Fatal(err)
 	}
 
-	if err = json.Unmarshal(data, &r); err != nil {
+	err = json.Unmarshal(data, &r)
+	if err != nil {
 		log.Fatal(err)
 	}
 }
@@ -62,14 +62,12 @@ type Data struct {
 	Subject string
 	Body    string
 	Message []byte
-	Timeout time.Duration
 }
 
 func (d *Data) NewData() {
 	d.Subject = ""
 	d.Body = ""
 	d.Message = []byte(d.Subject + mime + d.Body)
-	d.Timeout = 0 * time.Second
 }
 
 func (d *Data) GetTemplate(personInfo Person, email string) string {
@@ -95,10 +93,6 @@ func (d *Data) SetSubjectPersonInfo(name string, lastName string) {
 func (d *Data) SetBodyPersonInfo(personInfo Person, email string) {
 	d.Body = d.GetTemplate(personInfo, email)
 	d.Message = []byte(d.Subject + mime + d.Body)
-}
-
-func (d *Data) SetTimeout(timeout time.Duration) {
-	d.Timeout = timeout * time.Second
 }
 
 type SendData struct {
