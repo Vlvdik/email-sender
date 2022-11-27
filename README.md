@@ -26,7 +26,7 @@
 ]
 ```
 ---
-### To start the service, you need to configure ***config.toml***
+### Also, configure ***config.toml*** file before running 
 ```toml
 sender_email = "..."
 password = "..."
