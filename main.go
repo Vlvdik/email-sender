@@ -19,7 +19,7 @@ func main() {
 			log.Fatal(err)
 		}
 	}()
-	defer app.Close(&es, ctx)
+	defer app.Close(ctx, &es)
 
 	fmt.Println("\nHi! To send a newsletter write 1, to send a deferred newsletter write 2, to see a list of deferred newsletters write 3, to exit write 0.")
 	for {
