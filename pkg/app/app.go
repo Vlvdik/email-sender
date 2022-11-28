@@ -192,7 +192,7 @@ func SendMailsWithDuration(sd config.SendData, duration time.Duration) {
 	log.Printf("\nDeffered mailing successfully completed!\n Date and time of task: %v\n", stamp.Format("02-Jan-2006 15:04:05"))
 }
 
-func Close(es *server.EmailServer, ctx context.Context) {
+func Close(ctx context.Context, es *server.EmailServer) {
 	log.Println("\nThe app is closing")
 
 	err := es.Server.Shutdown(ctx)
