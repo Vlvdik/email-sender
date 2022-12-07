@@ -16,7 +16,7 @@
     }
   },
   {
-  "email": ["anotherOne@gmail.com"],
+    "email": ["anotherOne@gmail.com"],
     "personalInfo":{
       "Name":"Ivan",
       "lastName":"Ivanov",
